@@ -1,4 +1,4 @@
-const sequelize = require("./db");
+const sequelize = require("../db");
 const { DataTypes } = require("sequelize");
 
 const User = sequelize.define("user", {
@@ -45,5 +45,45 @@ const DeviceInfo = sequelize.define("device_info", {
   description: { type: DataTypes.STRING, allowNull: false },
 });
 
+const TypeBrand = sequelize.define("type_brand", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+}); // **1
+
+User.hasOne(Basket); //hasOne тоесть у пользователя может быть толко 1 корзина
+Basket.belongsTo(User); // belongsTo показываем что корзина принадледжит пользователю
+
+User.hasMany(Rating); // один пользователь может иметь много оценок
+Rating.belongsTo(User);
+
+Basket.hasMany(BasketDevice);
+BasketDevice.belongsTo(Basket);
+
+Type.hasMany(Device);
+Device.belongsTo(Type);
+
+Brand.hasMany(Device);
+Device.belongsTo(Brand);
+
+Device.hasMany(Rating);
+Rating.belongsTo(Device);
+
+Device.hasMany(BasketDevice);
+BasketDevice.belongsTo(Device);
+
 Device.hasMany(DeviceInfo);
 DeviceInfo.belongsTo(Device);
+
+Type.belongsToMany(Brand, { through: TypeBrand }); //связь много ко многим 2й ааргумент таблица для связи типо с брэндом создали см **1
+Brand.belongsToMany(Type, { through: TypeBrand });
+
+module.export = {
+  User,
+  Basket,
+  BasketDevice,
+  Device,
+  Type,
+  Brand,
+  Rating,
+  TypeBrand,
+  DeviceInfo,
+};
