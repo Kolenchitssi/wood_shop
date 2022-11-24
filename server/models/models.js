@@ -49,7 +49,7 @@ const TypeBrand = sequelize.define("type_brand", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 }); // **1
 
-User.hasOne(Basket); //hasOne тоесть у пользователя может быть толко 1 корзина
+User.hasOne(Basket); //hasOne тоесть у пользователя может быть только 1 корзина
 Basket.belongsTo(User); // belongsTo показываем что корзина принадледжит пользователю
 
 User.hasMany(Rating); // один пользователь может иметь много оценок
@@ -70,13 +70,13 @@ Rating.belongsTo(Device);
 Device.hasMany(BasketDevice);
 BasketDevice.belongsTo(Device);
 
-Device.hasMany(DeviceInfo);
+Device.hasMany(DeviceInfo, { as: "info" });
 DeviceInfo.belongsTo(Device);
 
 Type.belongsToMany(Brand, { through: TypeBrand }); //связь много ко многим 2й ааргумент таблица для связи типо с брэндом создали см **1
 Brand.belongsToMany(Type, { through: TypeBrand });
 
-module.export = {
+module.exports = {
   User,
   Basket,
   BasketDevice,
