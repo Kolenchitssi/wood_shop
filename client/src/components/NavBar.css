@@ -1,0 +1,7 @@
+.nav-bar {
+  height: 50px;
+}
+
+.nav-bar_link {
+  border-right: 1px dotted white;
+}
