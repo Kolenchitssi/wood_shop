@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { observer } from "mobx-react-lite";
 
-const Name = () => {
-  return <div></div>;
-};
+import { Context } from "../index";
+
+const Name = observer(() => {
+  const { device } = useContext(Context);
+  return <div className="Name" style={{ display: "flex" }}></div>;
+});
 
 export default Name;

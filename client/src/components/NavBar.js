@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
-import { Context } from "../index";
 
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,7 +8,8 @@ import Button from "react-bootstrap/Button";
 import { SHOP_ROUTE, LOGIN_ROUTE, ADMIN_ROUTE } from "../utils/constantsRoutes";
 import { observer } from "mobx-react-lite"; //для отслеживания и перерисовки компонента
 
-import "./NavBar.css";
+import { Context } from "../index";
+import "./navBar.css";
 
 const NavBar = observer(() => {
   const { user } = useContext(Context);
