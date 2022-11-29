@@ -8,6 +8,7 @@ export default class DeviceStore {
       { id: 3, name: "Лавки" },
       { id: 4, name: "Шезлонги" },
     ];
+
     this._brands = [
       { id: 1, name: "ИП Буратино" },
       { id: 2, name: "Гомельдрев" },

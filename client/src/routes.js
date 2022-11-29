@@ -17,7 +17,7 @@ export const authRoutes = [
   {
     path: ADMIN_ROUTE,
     Element: Admin,
-    errorElement: ErrorPage,
+    // errorElement: ErrorPage,
   },
   {
     path: BASKET_ROUTE,

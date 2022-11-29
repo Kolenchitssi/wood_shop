@@ -6,6 +6,7 @@ import { Context } from "../index";
 
 const BrandBar = observer(() => {
   const { device } = useContext(Context);
+
   return (
     <div className="brand-bar" style={{ display: "flex" }}>
       {device.brands.map((brand) => (

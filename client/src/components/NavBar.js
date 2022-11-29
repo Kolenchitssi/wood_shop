@@ -7,26 +7,33 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { SHOP_ROUTE, LOGIN_ROUTE, ADMIN_ROUTE } from "../utils/constantsRoutes";
 import { observer } from "mobx-react-lite"; //для отслеживания и перерисовки компонента
+import { useNavigate } from "react-router-dom";
 
 import { Context } from "../index";
 import "./navBar.css";
 
 const NavBar = observer(() => {
   const { user } = useContext(Context);
+  const navigate = useNavigate();
   return (
     <Navbar className="nav-bar" bg="primary" variant="dark">
       <Container>
-        <Navbar.Brand href={SHOP_ROUTE}>Shop</Navbar.Brand>{" "}
+        <Navbar.Brand href={SHOP_ROUTE}>
+          Shop {String(user.isAuth)}
+        </Navbar.Brand>{" "}
         {/* /Can may use <NavLink to={SHOP_ROUTE}>Home</NavLink> */}
         {user.isAuth ? (
           <Nav className="ml-auto">
             <Nav.Link className="nav-bar_link" href={SHOP_ROUTE}>
               Домой{" "}
             </Nav.Link>
-            <Nav.Link className="nav-bar_link" href={ADMIN_ROUTE}>
+            <Button
+              className="nav-bar_link"
+              onClick={() => navigate(ADMIN_ROUTE)}
+            >
               Админ. панель
-            </Nav.Link>
-            <Nav.Link href={LOGIN_ROUTE}>Войти</Nav.Link>
+            </Button>
+            <Nav.Link href={LOGIN_ROUTE}>Выйти</Nav.Link>
           </Nav>
         ) : (
           <Nav className="ml-auto">
