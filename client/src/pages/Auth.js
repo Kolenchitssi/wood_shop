@@ -1,13 +1,22 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { observer } from "mobx-react-lite";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { Card, Container, Form, Row, Col, Button } from "react-bootstrap";
-import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "../utils/constantsRoutes";
+import {
+  LOGIN_ROUTE,
+  REGISTRATION_ROUTE,
+  SHOP_ROUTE,
+} from "../utils/constantsRoutes";
 
 import "./Auth.css";
+import { login, registration } from "../http/userApi";
+import { Context } from "../index";
 
-const Auth = () => {
+const Auth = observer(() => {
+  const { user } = useContext(Context);
   const location = useLocation();
+  const navigate = useNavigate();
   /*   console.log(location);
   {
   hash:"",
@@ -18,6 +27,25 @@ const Auth = () => {
 } */
 
   const isLogin = location.pathname === LOGIN_ROUTE;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const click = async () => {
+    try {
+      let data;
+      if (isLogin) {
+        const data = await login(email, password);
+      } else {
+        const data = await registration(email, password);
+        console.log(user, data);
+      }
+      user.setUser(user);
+      user.setIsAuth(true);
+      navigate(SHOP_ROUTE);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
 
   return (
     <Container
@@ -39,8 +67,16 @@ const Auth = () => {
                 style={{ maxwidth: 400 }}
                 className="mt-3"
                 placeholder="Введите e-mail..."
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <Form.Control className="mt-3" placeholder="Введите пароль..." />
+              <Form.Control
+                className="mt-3"
+                placeholder="Введите пароль..."
+                value={password}
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <div
                 style={{
                   display: "flex",
@@ -62,6 +98,7 @@ const Auth = () => {
                 <Button
                   className="mt-3 align-self-end"
                   variant="outline-success"
+                  onClick={click}
                 >
                   {isLogin ? "Войти" : "Регистрация"}
                 </Button>
@@ -72,6 +109,6 @@ const Auth = () => {
       </Row>
     </Container>
   );
-};
+});
 
 export default Auth;

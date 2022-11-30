@@ -15,6 +15,11 @@ import "./navBar.css";
 const NavBar = observer(() => {
   const { user } = useContext(Context);
   const navigate = useNavigate();
+
+  const logOut = () => {
+    user.setUser({});
+    user.setIsAuth(false);
+  };
   return (
     <Navbar className="nav-bar" bg="primary" variant="dark">
       <Container>
@@ -33,13 +38,21 @@ const NavBar = observer(() => {
             >
               Админ. панель
             </Button>
-            <Nav.Link href={LOGIN_ROUTE}>Выйти</Nav.Link>
+            <Button
+              className="nav-bar_link"
+              onClick={() => {
+                navigate(LOGIN_ROUTE);
+                logOut();
+              }}
+            >
+              Выйти
+            </Button>
           </Nav>
         ) : (
           <Nav className="ml-auto">
             <Button
               variant={"outline-light"}
-              onClick={() => user.setIsAuth(true)}
+              onClick={() => navigate(LOGIN_ROUTE)}
             >
               Авторизация
             </Button>{" "}
