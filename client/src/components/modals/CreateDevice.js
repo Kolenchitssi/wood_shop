@@ -10,7 +10,6 @@ import { Context } from "../../index";
 
 const CreateDevice = observer(({ show, onHide }) => {
   const { device } = useContext(Context);
-  console.log("device selectedBrand", device.selectedBrand.name);
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
@@ -34,11 +33,23 @@ const CreateDevice = observer(({ show, onHide }) => {
     setInfo(info.filter((item) => item.number !== number));
   };
 
+  const changeInfo = (key, value, number) => {
+    setInfo(
+      info.map((item) =>
+        item.number === number ? { ...item, [key]: value } : item
+      )
+    );
+  };
+
   const addDevice = () => {
-    createDevice({ name: name }).then((data) => {
-      setName("");
-      onHide();
-    });
+    const formData = new FormData(); //чтобы отправлять объект формдата
+    formData.append("name", name);
+    formData.append("price", `${price}`);
+    formData.append("img", file);
+    formData.append("brandId", device.selectedBrand.id);
+    formData.append("typeId", device.selectedType.id);
+    formData.append("info", JSON.stringify(info));
+    createDevice(formData).then((data) => onHide());
   };
 
   return (
@@ -68,7 +79,7 @@ const CreateDevice = observer(({ show, onHide }) => {
 
           <Dropdown className="mt-3">
             <Dropdown.Toggle>
-              {device.selectedBrand.name || "Выберите бренд"}
+              {device.selectedBrand.name || "Выберите Производителя"}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {device.brands.map((brand) => (
@@ -108,10 +119,22 @@ const CreateDevice = observer(({ show, onHide }) => {
           {info.map((i) => (
             <Row className="mt-1" key={i.number}>
               <Col md={4}>
-                <Form.Control placeholder="Введите название свойства" />
+                <Form.Control
+                  value={i.title}
+                  onChange={(e) =>
+                    changeInfo("title", e.target.value, i.number)
+                  }
+                  placeholder="Введите название свойства"
+                />
               </Col>
               <Col md={4}>
-                <Form.Control placeholder="Введите описание свойства" />
+                <Form.Control
+                  onChange={(e) =>
+                    changeInfo("description", e.target.value, i.number)
+                  }
+                  value={i.description}
+                  placeholder="Введите описание свойства"
+                />
               </Col>
               <Col md={4}>
                 <Button
@@ -129,7 +152,7 @@ const CreateDevice = observer(({ show, onHide }) => {
         <Button variant="outline-danger" onClick={onHide}>
           Закрыть
         </Button>
-        <Button variant="outline-success" onClick={onHide}>
+        <Button variant="outline-success" onClick={addDevice}>
           Добавить
         </Button>
       </Modal.Footer>

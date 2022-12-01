@@ -41,7 +41,7 @@ const NavBar = observer(() => {
             <Button
               className="nav-bar_link"
               onClick={() => {
-                navigate(LOGIN_ROUTE);
+                // navigate(LOGIN_ROUTE);
                 logOut();
               }}
             >
