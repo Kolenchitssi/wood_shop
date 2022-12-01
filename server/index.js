@@ -1,5 +1,7 @@
 require("dotenv").config(); //for access .env
 const express = require("express");
+// новый синтаксис
+// import express from 'express'
 const sequelize = require("./db");
 const models = require("./models/models");
 const cors = require("cors");
