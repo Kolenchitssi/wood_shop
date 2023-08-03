@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { BrowserRouter } from "react-router-dom";
-import "./App.css";
 import AppRouter from "./components/AppRouter";
 import NavBar from "./components/NavBar";
 import { Context } from "./index";
 import { check } from "./http/userApi";
 import { Spinner } from "react-bootstrap";
+import "./App.css";
 
 const App = observer(() => {
   const { user } = useContext(Context);
